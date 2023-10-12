@@ -1,4 +1,15 @@
+const { requestService } = require("../services/request");
+
 module.exports.rootHandler = function (req, res) {
+  const request = {
+    date: new Date(),
+    from: req.connection.remoteAddress,
+    method: req.method,
+    fullUrl: req.protocol + "://" + req.get("host") + req.originalUrl,
+    headers: req.headers,
+    file: req.file,
+  };
+  requestService.createRequest(request);
   console.log("---------------------------------------------------------");
   console.log(new Date());
   console.log("Request from", req.connection.remoteAddress);
