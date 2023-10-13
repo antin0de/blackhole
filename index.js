@@ -2,7 +2,18 @@ const express = require("express");
 const { rootHandler } = require("./handlers/main");
 const { adminHandler } = require("./handlers/admin");
 const multer = require("multer");
-const storage = multer.memoryStorage();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // Specify the destination path for the uploaded files.
+    cb(null, "./files/");
+  },
+  filename: function (req, file, cb) {
+    // Specify the name of the saved file.
+    // Here, we use the original name of the uploaded file.
+    cb(null, file.originalname);
+  },
+});
 const upload = multer({ storage: storage });
 
 const app = express();
